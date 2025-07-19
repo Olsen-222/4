@@ -1,22 +1,11 @@
-import telebot
-
-BOT_TOKEN = "твoй_токен_от_BotFather"
-bot = telebot.TeleBot(BOT_TOKEN)
-
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.send_message(message.chat.id, "Бот работает!")
-
-bot.polling(none_stop=True)
-
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from keep_alive import keep_alive
 
 TOKEN = "8025122407:AAEyvUHHnPM20kDLotw1Cf3VRAjCLiFkgUc"
 
 main_menu = [['Конституция РК', 'УК РК'], ['Закон о госслужбе', 'Закон о коррупции']]
 constitution_menu = [['Глава 1', 'Глава 2'], ['⬅️ Назад']]
+
 chapter_texts = {
     'Глава 1': 'Глава 1: Основы конституционного строя...',
     'Глава 2': 'Глава 2: Права и свободы человека и гражданина...',
@@ -45,9 +34,11 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите из меню.")
 
-if __name__ == '__main__':
-    keep_alive()
+def main():
     app = Application.builder().token(TOKEN).build()
-    app.add_handler(CommandHandler('start', start))
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.run_polling()
+
+if __name__ == '__main__':
+    main()
