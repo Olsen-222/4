@@ -1,5 +1,6 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from keep_alive import keep_alive
 
 TOKEN = "8025122407:AAEyvUHHnPM20kDLotw1Cf3VRAjCLiFkgUc"
 
@@ -34,11 +35,10 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("Пожалуйста, выберите из меню.")
 
-def main():
+if _name_ == '_main_':
+    keep_alive()
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+    print("Бот запущен!")
     app.run_polling()
-
-if __name__ == '__main__':
-    main()
