@@ -1,3 +1,14 @@
+import telebot
+
+BOT_TOKEN = "твoй_токен_от_BotFather"
+bot = telebot.TeleBot(BOT_TOKEN)
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, "Бот работает!")
+
+bot.polling(none_stop=True)
+
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from keep_alive import keep_alive
